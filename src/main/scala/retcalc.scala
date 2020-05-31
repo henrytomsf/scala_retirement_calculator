@@ -30,10 +30,30 @@ object RetCalc {
         val capitalAfterDeath = futureCapital(
             interestRate = interestRate,
             nbOfMonths = nbOfMonthsInRetirement,
-            netIncome = netIncome,
+            netIncome = 0,
             currentExpenses = currentExpenses,
-            initialCapital = initialCapital
+            initialCapital = capitalAtRetirement
         )
         (capitalAtRetirement, capitalAfterDeath)
     }
+
+    // def determinenbOfMonthsSaving(interestRate: Double,
+    //                               nbOfMonthsInRetirement: Int,
+    //                               netIncome: Int,
+    //                               currentExpenses: Int,
+    //                               initialCapital: Double): Int = {
+    //     def loop(months: Int): Int = {
+    //         val (capitalAtRetirement, capitalAfterDeath) = simulatePlan(
+    //             interestRate = interestRate,
+    //             nbOfMonthsSaving = months,
+    //             nbOfMonthsInRetirement = nbOfMonthsInRetirement,
+    //             netIncome = netIncome,
+    //             currentExpenses = currentExpenses,
+    //             initialCapital = initialCapital
+    //         )
+    //         val optimalMonths = if (capitalAfterDeath > 0.0) months else loop(months + 1)
+    //         optimalMonths
+    //     }
+    //     loop(0)
+    // }
 }
