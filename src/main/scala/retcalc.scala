@@ -18,7 +18,7 @@ object RetCalc {
                      nbOfMonthsInRetirement: Int,
                      netIncome: Int,
                      currentExpenses: Int,
-                     initialCapital: Double): Double = {
+                     initialCapital: Double): (Double, Double) = {
         
     }
 }
