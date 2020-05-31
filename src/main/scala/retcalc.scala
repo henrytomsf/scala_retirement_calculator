@@ -1,5 +1,7 @@
 package retcalc
 
+import scala.annotation.tailrec
+
 object RetCalc {
     def futureCapital(interestRate: Double,
                       nbOfMonths: Int,
@@ -42,6 +44,7 @@ object RetCalc {
                                   netIncome: Int,
                                   currentExpenses: Int,
                                   initialCapital: Double): Int = {
+        @tailrec
         def loop(months: Int): Int = {
             val (capitalAtRetirement, capitalAfterDeath) = simulatePlan(
                 interestRate = interestRate,
@@ -51,8 +54,7 @@ object RetCalc {
                 currentExpenses = currentExpenses,
                 initialCapital = initialCapital
             )
-            val optimalMonths = if (capitalAfterDeath > 0.0) months else loop(months + 1)
-            optimalMonths
+            if (capitalAfterDeath > 0.0) months else loop(months + 1)
         }
         loop(0)
     }
