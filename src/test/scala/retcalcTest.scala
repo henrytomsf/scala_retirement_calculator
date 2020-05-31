@@ -1,7 +1,9 @@
 package retcalc
 
+
 import org.scalactic.{Equality, TolerantNumerics, TypeCheckedTripleEquals}
 import org.scalatest._
+
 
 class RetCalcSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
     implicit val doubleEquality: Equality[Double] = TolerantNumerics.tolerantDoubleEquality(0.0001)
