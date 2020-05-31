@@ -70,6 +70,15 @@ class RetCalcSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
             val expected = 8280
             actual should === (expected)
         }
-        "not loop forever if bad parameters are passed" in pending
+        "not loop forever if bad parameters are passed" in {
+            val actual = RetCalc.determinenbOfMonthsSaving(
+                interestRate = 0.04/12,
+                nbOfMonthsInRetirement = 40*12,
+                netIncome = 1000,
+                currentExpenses = 2000,
+                initialCapital = 10000
+            )
+            actual should === (Int.MaxValue)
+        }
     }
 }
