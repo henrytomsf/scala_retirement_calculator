@@ -1,6 +1,8 @@
 package retcalc
 
+
 import scala.annotation.tailrec
+
 
 object RetCalc {
     def futureCapital(interestRate: Double,
