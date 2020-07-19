@@ -17,14 +17,14 @@ object RetCalc {
         }
     }
 
-    def simulatePlan(interestRate: Double,
+    def simulatePlan(returns: Returns,
                      nbOfMonthsSaving: Int,
                      nbOfMonthsInRetirement: Int,
                      netIncome: Int,
                      currentExpenses: Int,
                      initialCapital: Double): (Double, Double) = {
         val capitalAtRetirement = futureCapital(
-            interestRate = interestRate,
+            returns = returns,
             nbOfMonths = nbOfMonthsSaving,
             netIncome = netIncome,
             currentExpenses = currentExpenses,
@@ -32,7 +32,7 @@ object RetCalc {
         )
 
         val capitalAfterDeath = futureCapital(
-            interestRate = interestRate,
+            returns = returns,
             nbOfMonths = nbOfMonthsInRetirement,
             netIncome = 0,
             currentExpenses = currentExpenses,
@@ -41,7 +41,7 @@ object RetCalc {
         (capitalAtRetirement, capitalAfterDeath)
     }
 
-    def determinenbOfMonthsSaving(interestRate: Double,
+    def determinenbOfMonthsSaving(returns: Returns,
                                   nbOfMonthsInRetirement: Int,
                                   netIncome: Int,
                                   currentExpenses: Int,
@@ -49,7 +49,7 @@ object RetCalc {
         @tailrec
         def loop(months: Int): Int = {
             val (capitalAtRetirement, capitalAfterDeath) = simulatePlan(
-                interestRate = interestRate,
+                returns = returns,
                 nbOfMonthsSaving = months,
                 nbOfMonthsInRetirement = nbOfMonthsInRetirement,
                 netIncome = netIncome,

@@ -29,8 +29,8 @@ class ReturnsSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
 
     "Returns.monthlyRate" should {
         "return a fixed rate for a FixedReturn object" in {
-            Return.monthlyRate(FixedReturns(0.04), 0) should === (0.04/12)
-            Return.monthlyRate(FixedReturns(0.04), 10) should === (0.04/12)
+            Returns.monthlyRate(FixedReturns(0.04), 0) should === (0.04/12)
+            Returns.monthlyRate(FixedReturns(0.04), 10) should === (0.04/12)
         }
 
         val variableReturns = VariableReturns(Vector(
