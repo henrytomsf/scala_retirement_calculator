@@ -5,16 +5,16 @@ import scala.annotation.tailrec
 
 
 object RetCalc {
-    def futureCapital(interestRate: Double,
+    def futureCapital(returns: Returns,
                       nbOfMonths: Int,
                       netIncome: Int,
                       currentExpenses: Int,
                       initialCapital: Double): Double = {
         val monthlySavings = netIncome - currentExpenses
-        def nextCapital(accumulated: Double, month: Int): Double = {
-            accumulated*(1+interestRate) + monthlySavings
+        (0 until nbOfMonths).foldLeft(initialCapital){
+            case (accumulated, month) =>
+                accumulated*(1+Returns.monthlyRate(returns, month)) + monthlySavings
         }
-        (0 until nbOfMonths).foldLeft(initialCapital)(nextCapital)
     }
 
     def simulatePlan(interestRate: Double,
