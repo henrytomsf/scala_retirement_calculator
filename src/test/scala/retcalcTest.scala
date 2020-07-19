@@ -37,7 +37,7 @@ class RetCalcSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
     "RetCalc.simulatePlan" should {
         "calculate the capital at retirement and the capital after death" in {
             val (capitalAfterRetirement, capitalAfterDeath) = RetCalc.simulatePlan(
-                interestRate = 0.04/12,
+                interestRate = FixedReturns(0.04),
                 nbOfMonthsSaving = 25*12,
                 nbOfMonthsInRetirement = 40*12,
                 netIncome = 3000,
@@ -52,7 +52,7 @@ class RetCalcSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
     "RetCalc.determinenbOfMonthsSaving" should {
         "calculate how long I need to save before I can retire" in {
             val actual = RetCalc.determinenbOfMonthsSaving(
-                interestRate = 0.04/12,
+                interestRate = FixedReturns(0.04),
                 nbOfMonthsInRetirement = 40*12,
                 netIncome = 3000,
                 currentExpenses = 2000,
@@ -63,7 +63,7 @@ class RetCalcSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
         }
         "not crash if the resulting nbOfMonths is very high" in {
             val actual = RetCalc.determinenbOfMonthsSaving(
-                interestRate = 0.01/12,
+                interestRate = FixedReturns(0.01),
                 nbOfMonthsInRetirement = 40*12,
                 netIncome = 3000,
                 currentExpenses = 2999,
@@ -74,7 +74,7 @@ class RetCalcSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
         }
         "not loop forever if bad parameters are passed" in {
             val actual = RetCalc.determinenbOfMonthsSaving(
-                interestRate = 0.04/12,
+                interestRate = FixedReturns(0.04),
                 nbOfMonthsInRetirement = 40*12,
                 netIncome = 1000,
                 currentExpenses = 2000,
