@@ -12,3 +12,9 @@ case class VariableReturns(returns: Vector[VariableReturn]) extends Returns {
         )
     }
 }
+
+
+
+object Returns {
+    def monthlyRate(returns: Returns, month: Int): Double = ???
+}
