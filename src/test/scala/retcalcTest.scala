@@ -11,7 +11,7 @@ class RetCalcSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
     "RetCalc.futureCapital" should {
         "calculate the amount of savings I will have in n months" in {
             val actual = RetCalc.futureCapital(
-                interestRate = 0.04/12,
+                interestRate = FixedReturns(0.04),
                 nbOfMonths = 25*12,
                 netIncome = 3000,
                 currentExpenses = 2000,
@@ -24,7 +24,7 @@ class RetCalcSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
     "RetCalc.futureCapital" should {
         "calculate how much savings will be left after having taken a pension for n months" in {
             val actual = RetCalc.futureCapital(
-                interestRate = 0.04/12,
+                interestRate = FixedReturns(0.04),
                 nbOfMonths = 40*12,
                 netIncome = 0,
                 currentExpenses = 2000,
