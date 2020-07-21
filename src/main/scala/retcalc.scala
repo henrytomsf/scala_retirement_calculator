@@ -4,6 +4,12 @@ package retcalc
 import scala.annotation.tailrec
 
 
+case class RetCalcParams(nbOfMonthsInRetirement: Int,
+                         netIncome: Int,
+                         currentExpenses: Int,
+                         initialCapital: Double)
+
+
 object RetCalc {
     def futureCapital(returns: Returns,
                       nbOfMonths: Int,
@@ -18,11 +24,10 @@ object RetCalc {
     }
 
     def simulatePlan(returns: Returns,
-                     nbOfMonthsSaving: Int,
-                     nbOfMonthsInRetirement: Int,
-                     netIncome: Int,
-                     currentExpenses: Int,
-                     initialCapital: Double): (Double, Double) = {
+                     params: RetCalcParams,
+                     nbOfMonthsSaving: Int): (Double, Double) = {
+        import params._ //imports all attributes of RetCalcParams into scope to use
+        // can also use params.netIncome, etc.
         val capitalAtRetirement = futureCapital(
             returns = returns,
             nbOfMonths = nbOfMonthsSaving,
@@ -32,7 +37,7 @@ object RetCalc {
         )
 
         val capitalAfterDeath = futureCapital(
-            returns = returns,
+            returns = OffsetReturns(returns, nbOfMonthsSaving),
             nbOfMonths = nbOfMonthsInRetirement,
             netIncome = 0,
             currentExpenses = currentExpenses,
