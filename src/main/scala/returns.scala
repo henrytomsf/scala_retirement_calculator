@@ -12,6 +12,7 @@ case class VariableReturns(returns: Vector[VariableReturn]) extends Returns {
         )
     }
 }
+case class OffsetReturns(orig: Returns, offset: Int) extends Returns
 
 
 
@@ -19,5 +20,6 @@ object Returns {
     def monthlyRate(returns: Returns, month: Int): Double = returns match {
         case FixedReturns(r) => r/12
         case VariableReturns(rs) => rs(month % rs.length).monthlyRate //this monthlyRate is the attribute, not the static method
+        case OffsetReturns(rs, offset) => monthlyRate(rs, month+offset)
     }
 }
