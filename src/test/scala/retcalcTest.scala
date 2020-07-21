@@ -34,18 +34,41 @@ class RetCalcSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
         }
     }
 
+    val params = RetCalcParams(
+        nbOfMonthsInRetirement = 40*12,
+        netIncome = 3000,
+        currentExpenses = 2000,
+        initialCapital = 10000
+    )
+
     "RetCalc.simulatePlan" should {
         "calculate the capital at retirement and the capital after death" in {
             val (capitalAfterRetirement, capitalAfterDeath) = RetCalc.simulatePlan(
                 returns = FixedReturns(0.04),
-                nbOfMonthsSaving = 25*12,
-                nbOfMonthsInRetirement = 40*12,
-                netIncome = 3000,
-                currentExpenses = 2000,
-                initialCapital = 10000
+                params,
+                nbOfMonthsSaving = 25*12
             )
             capitalAfterRetirement should === (541267.1990)
             capitalAfterDeath should === (309867.5316)
+        }
+
+        "use different returns for capitalization and drawdown" in {
+            val nbOfMonthsSaving = 25*12
+            val returns = VariableReturns(
+                Vector.tabulate(nbOfMonthsSaving + params.nbOfMonthsInRetirement)(i => 
+                    if (i < nbOfMonthsSaving)
+                        VariableReturn(i.toString, 0.04/12)
+                    else
+                        VariableReturn(i.toString, 0.03/12)
+                )
+            )
+            val (capitalAfterRetirement, capitalAfterDeath) = RetCalc.simulatePlan(
+                returns,
+                params,
+                nbOfMonthsSaving
+            )
+            capitalAfterRetirement should === (541267.1990)
+            capitalAfterDeath should === (-57737.7227)
         }
     }
 
