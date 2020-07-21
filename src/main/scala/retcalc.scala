@@ -47,19 +47,14 @@ object RetCalc {
     }
 
     def determinenbOfMonthsSaving(returns: Returns,
-                                  nbOfMonthsInRetirement: Int,
-                                  netIncome: Int,
-                                  currentExpenses: Int,
-                                  initialCapital: Double): Int = {
+                                  params: RetCalcParams): Int = {
+        import params._
         @tailrec
         def loop(months: Int): Int = {
             val (capitalAtRetirement, capitalAfterDeath) = simulatePlan(
                 returns = returns,
-                nbOfMonthsSaving = months,
-                nbOfMonthsInRetirement = nbOfMonthsInRetirement,
-                netIncome = netIncome,
-                currentExpenses = currentExpenses,
-                initialCapital = initialCapital
+                params = params,
+                nbOfMonthsSaving = months
             )
             if (capitalAfterDeath > 0.0) months else loop(months + 1)
         }
