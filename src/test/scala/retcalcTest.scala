@@ -74,34 +74,43 @@ class RetCalcSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
 
     "RetCalc.determinenbOfMonthsSaving" should {
         "calculate how long I need to save before I can retire" in {
-            val actual = RetCalc.determinenbOfMonthsSaving(
-                returns = FixedReturns(0.04),
+            val params = RetCalcParams(
                 nbOfMonthsInRetirement = 40*12,
                 netIncome = 3000,
                 currentExpenses = 2000,
                 initialCapital = 10000
+            )
+            val actual = RetCalc.determinenbOfMonthsSaving(
+                returns = FixedReturns(0.04),
+                params = params
             )
             val expected = 23 * 12 + 1
             actual should === (expected)
         }
         "not crash if the resulting nbOfMonths is very high" in {
-            val actual = RetCalc.determinenbOfMonthsSaving(
-                returns = FixedReturns(0.01),
+            val params = RetCalcParams(
                 nbOfMonthsInRetirement = 40*12,
                 netIncome = 3000,
                 currentExpenses = 2999,
                 initialCapital = 0
             )
+            val actual = RetCalc.determinenbOfMonthsSaving(
+                returns = FixedReturns(0.01),
+                params = params
+            )
             val expected = 8280
             actual should === (expected)
         }
         "not loop forever if bad parameters are passed" in {
-            val actual = RetCalc.determinenbOfMonthsSaving(
-                returns = FixedReturns(0.04),
+            val params = RetCalcParams(
                 nbOfMonthsInRetirement = 40*12,
                 netIncome = 1000,
                 currentExpenses = 2000,
                 initialCapital = 10000
+            )
+            val actual = RetCalc.determinenbOfMonthsSaving(
+                returns = FixedReturns(0.04),
+                params = params
             )
             actual should === (Int.MaxValue)
         }

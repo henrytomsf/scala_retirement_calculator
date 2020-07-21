@@ -65,7 +65,7 @@ class ReturnsSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
 
         "return the n+offset-th rate for OffsetReturn" in {
             val returns = OffsetReturns(variableReturns, 1)
-            Returns.monthlyRate(returns, 0).right.value should === (0.2)
+            Returns.monthlyRate(returns, 0) should === (0.2)
         }
     }
 
