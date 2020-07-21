@@ -26,7 +26,7 @@ object Returns {
     def fromEquityAndInflationData(equities: Vector[EquityData], inflations: Vector[InflationData]): VariableReturns = {
         VariableReturns(
             equities.zip(inflations)
-            .sliding(2)
+            .sliding(2) //get previous item and current item together
             .collect {
                 case (prevEquity, prevInflation) +: (equity, inflation) +: Vector() =>
                     val inflationRate = inflation.value / prevInflation.value
