@@ -43,7 +43,7 @@ class RetCalcSpec extends AnyFlatSpec with EitherValues {
             returns = FixedReturns(0.04),
             params,
             nbOfMonthsSaving = 25*12
-        )
+        ).right.value
         capitalAfterRetirement === (541267.1990)
         capitalAfterDeath === (309867.5316)
     }
@@ -62,7 +62,7 @@ class RetCalcSpec extends AnyFlatSpec with EitherValues {
             returns,
             params,
             nbOfMonthsSaving
-        )
+        ).right.value
         capitalAfterRetirement === (541267.1990)
         capitalAfterDeath === (-57737.7227)
     }
