@@ -6,7 +6,7 @@ import org.scalatest._
 import org.scalatest.flatspec.AnyFlatSpec
 
 
-class ReturnsSpec extends AnyFlatSpec {
+class ReturnsSpec extends AnyFlatSpec with EitherValues {
 
     "VariableReturns.fromUntil" should "keep only a window of the return vector" in {
         val variableReturns = VariableReturns(Vector.tabulate(12)
@@ -26,22 +26,27 @@ class ReturnsSpec extends AnyFlatSpec {
     }
 
     "Returns.monthlyRate" should "return a fixed rate for a FixedReturn object" in {
-        Returns.monthlyRate(FixedReturns(0.04), 0) === (0.04/12)
-        Returns.monthlyRate(FixedReturns(0.04), 10) === (0.04/12)
+        Returns.monthlyRate(FixedReturns(0.04), 0).right.value === (0.04/12)
+        Returns.monthlyRate(FixedReturns(0.04), 10).right.value === (0.04/12)
     }
 
     val variableReturns = VariableReturns(Vector(
         VariableReturn("2000.01", 0.1),
         VariableReturn("2000.02", 0.2)))
     it should "return the nth rate for VariableReturn" in {
-        Returns.monthlyRate(variableReturns, 0) === (0.1)
-        Returns.monthlyRate(variableReturns, 1) === (0.2)
+        Returns.monthlyRate(variableReturns, 0).right.value === (0.1)
+        Returns.monthlyRate(variableReturns, 1).right.value === (0.2)
     }
 
     it should "roll over from the first rate if n > length" in {
-        Returns.monthlyRate(variableReturns, 2) === (0.1)
-        Returns.monthlyRate(variableReturns, 3) === (0.2)
-        Returns.monthlyRate(variableReturns, 4) === (0.1)
+        Returns.monthlyRate(variableReturns, 2).left.value === (ReturnMonthOutOfBounds(2, 1))
+        Returns.monthlyRate(variableReturns, 3).left.value === (ReturnMonthOutOfBounds(3, 1))
+        Returns.monthlyRate(variableReturns, 4).left.value === (ReturnMonthOutOfBounds(4, 1))
+    }
+
+    it should "return None if n > length" in {
+        Returns.monthlyRate(variableReturns, 2).left.value === (ReturnMonthOutOfBounds(2, 1))
+        Returns.monthlyRate(variableReturns, 3).left.value === (ReturnMonthOutOfBounds(3, 1))
     }
 
     "Returns.monthlyReturn" should "return a fixed rate for a FixedReturn" in {
@@ -55,7 +60,7 @@ class ReturnsSpec extends AnyFlatSpec {
 
     it should "return the n+offset-th rate for OffsetReturn" in {
         val returns = OffsetReturns(variableReturns, 1)
-        Returns.monthlyRate(returns, 0) === (0.2)
+        Returns.monthlyRate(returns, 0).right.value === (0.2)
     }
 
     "Returns.fromEquityAndInflationData" should "compute real total returns from equity and inflation data sources" in {
