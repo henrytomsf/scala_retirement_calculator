@@ -15,11 +15,14 @@ object RetCalc {
                       nbOfMonths: Int,
                       netIncome: Int,
                       currentExpenses: Int,
-                      initialCapital: Double): Double = {
+                      initialCapital: Double): Either[RetCalcError, Double] = {
         val monthlySavings = netIncome - currentExpenses
-        (0 until nbOfMonths).foldLeft(initialCapital){
+        (0 until nbOfMonths).foldLeft[Either[RetCalcError, Double]](Right(initialCapital)) { //need Right() here since folding an Either
             case (accumulated, month) =>
-                accumulated*(1+Returns.monthlyRate(returns, month)) + monthlySavings
+                for {
+                    acc <- accumulated
+                    monthlyRate <- Returns.monthlyRate(returns, month)
+                } yield acc*(1+monthlyRate) + monthlySavings
         }
     }
 
