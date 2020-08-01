@@ -47,7 +47,7 @@ object RetCalc {
     }
 
     def determinenbOfMonthsSaving(returns: Returns,
-                                  params: RetCalcParams): Int = {
+                                  params: RetCalcParams): Option[Int] = {
         import params._
         @tailrec
         def loop(months: Int): Int = {
@@ -59,9 +59,9 @@ object RetCalc {
             if (capitalAfterDeath > 0.0) months else loop(months + 1)
         }
         if (netIncome > currentExpenses) {
-            loop(0)
+            Some(loop(0))
         } else {
-            Int.MaxValue
+            None
         }
     }
 }
