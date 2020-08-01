@@ -6,7 +6,7 @@ import org.scalatest._
 import org.scalatest.flatspec.AnyFlatSpec
 
 
-class RetCalcSpec extends AnyFlatSpec {
+class RetCalcSpec extends AnyFlatSpec with EitherValues {
     // implicit val doubleEquality: Equality[Double] = TolerantNumerics.tolerantDoubleEquality(0.0001)
 
     "RetCalc.futureCapital" should "calculate the amount of savings I will have in n months" in {
@@ -77,7 +77,8 @@ class RetCalcSpec extends AnyFlatSpec {
         val actual = RetCalc.determinenbOfMonthsSaving(
             returns = FixedReturns(0.04),
             params = params
-        )
+        ).right.value //using EitherValues as part of test
+        // should return right, otherwise fail test
         val expected = 23 * 12 + 1
         actual === (Some(expected))
     }
@@ -92,7 +93,8 @@ class RetCalcSpec extends AnyFlatSpec {
         val actual = RetCalc.determinenbOfMonthsSaving(
             returns = FixedReturns(0.01),
             params = params
-        )
+        ).right.value //using EitherValues as part of test
+        // should return right, otherwise fail test
         val expected = 8280
         actual === (Some(expected))
     }
@@ -107,7 +109,7 @@ class RetCalcSpec extends AnyFlatSpec {
         val actual = RetCalc.determinenbOfMonthsSaving(
             returns = FixedReturns(0.04),
             params = params
-        )
-        actual === (None)
+        ).left.value //should return left, otherwise fail test
+        actual === (MoreExpensesThanIncome(1000, 2000))
     }
 }
