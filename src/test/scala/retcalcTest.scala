@@ -79,7 +79,7 @@ class RetCalcSpec extends AnyFlatSpec {
             params = params
         )
         val expected = 23 * 12 + 1
-        actual === (expected)
+        actual === (Some(expected))
     }
     
     it should "not crash if the resulting nbOfMonths is very high" in {
@@ -94,7 +94,7 @@ class RetCalcSpec extends AnyFlatSpec {
             params = params
         )
         val expected = 8280
-        actual === (expected)
+        actual === (Some(expected))
     }
     
     it should "not loop forever if bad parameters are passed" in {
@@ -108,6 +108,6 @@ class RetCalcSpec extends AnyFlatSpec {
             returns = FixedReturns(0.04),
             params = params
         )
-        actual === (Int.MaxValue)
+        actual === (None)
     }
 }
